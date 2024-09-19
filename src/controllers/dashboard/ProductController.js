@@ -56,6 +56,7 @@ export const getProductId = async (req, res, next) => {
             price: 1,
             brand: 1,
             category: 1,
+            image:1,
           },
         },
       ])

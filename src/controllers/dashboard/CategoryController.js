@@ -45,6 +45,7 @@ export const getCategoryId = async (req,res,next) => {
                     categoryname:1,
                     description:1,
                     _id:1,
+                    image:1
                 },
             },
             ]

@@ -13,6 +13,7 @@ export const addBrand = async (req, res, next) => {
       next(validationError('Name is required'));
     }
 
+
     const logo = getFilePath(req.file);
     await BrandModel.create({
       brandname: name,
@@ -48,6 +49,7 @@ export const getBrandId = async (req, res, next) => {
             brandname: 1,
             description: 1,
             _id: 1,
+            logo:1
           },
         },
       ])
