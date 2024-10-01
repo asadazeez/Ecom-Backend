@@ -3,6 +3,8 @@ import { CategoryModel} from '../../models/CategoryModel.js';
 import { serverError, validationError } from '../../utils/errorHandler.js';
 import dayjs from 'dayjs';
 import { getFilePath } from '../../utils/filePath.js';
+import { BannerModel } from '../../models/BannerModel.js';
+import { ProductModel } from '../../models/ProductModel.js';
 
 export const addCategory = async (req,res,next) => {
     try{
@@ -103,6 +105,9 @@ export const getAllCategory = async (req,res,next) => {
                         deletedAt:null,
                     },
                 },
+                {
+                    $sort:{createdAt:-1}
+                            },
             {
                 $project: {
                     categoryname:1,
@@ -176,6 +181,25 @@ export const deleteCategory = async(req , res, next) => {
 
         });
      }
+        const banners = await BannerModel.find({category:categoryId,deletedAt:null});
+        const products = await ProductModel.find({category:categoryId , deletedAt:null});
+
+
+        if(banners && banners.length>0){
+            res.status(201).json({
+                success:false,
+                message:'This category cannot be deleted because it is currently being used in a banner. ',
+
+        });
+     }
+        if(products && products.length>0){
+            res.status(201).json({
+                success:false,
+                message:'This category cannot be deleted because it is currently assigned to one or more products. ',
+
+        });
+     }
+        
      category.deletedAt = dayjs();
      await category.save();
      res.status(200).json({

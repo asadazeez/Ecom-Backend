@@ -111,6 +111,9 @@ export const addBanner = async (req, res, next) => {
             deletedAt: null,
           },
         },
+        {
+          $sort:{createdAt:-1}
+                  },
         
         {
           $lookup: {
@@ -120,7 +123,7 @@ export const addBanner = async (req, res, next) => {
             pipeline: [
               {
                 $match: {
-                  deletedAt: null, // Fixed typo here
+                  deletedAt: null,
                 },
               },
               {

@@ -3,6 +3,7 @@ import { BrandModel } from '../../models/BrandModel.js';
 import { serverError, validationError } from '../../utils/errorHandler.js';
 import dayjs from 'dayjs';
 import { getFilePath } from '../../utils/filePath.js';
+import { ProductModel } from '../../models/ProductModel.js';
 
 export const addBrand = async (req, res, next) => {
   try {
@@ -121,6 +122,9 @@ export const getAllBrand = async (req, res, next) => {
         },
       },
       {
+        $sort:{createdAt:-1}
+                },
+      {
         $project: {
           brandname: 1,
           description: 1,
@@ -188,7 +192,6 @@ export const deleteBrand = async (req,res,next) => {
     try{
         const{brandId} = req.params;
         const brand = await BrandModel.findOne({_id:brandId,deletedAt:null});
-
         if(!brand){
             res.status(422).json({
                 success:false,
@@ -196,6 +199,14 @@ export const deleteBrand = async (req,res,next) => {
 
         });
      }
+        const products = await ProductModel.find({brand:brandId, deletedAt:null});
+        if(products && products.length>0){
+          res.status(201).json({
+              success:false,
+              message:'This brand cannot be deleted because it is currently assigned to one or more products. ',
+
+      });
+   }
      brand.deletedAt = dayjs();
      await brand.save();
 

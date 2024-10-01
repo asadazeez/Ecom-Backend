@@ -50,6 +50,54 @@ export const getProductId = async (req, res, next) => {
           },
         },
         {
+          $lookup: {
+            from: BrandModel.modelName,
+            localField: 'brand',
+            foreignField: '_id',
+            pipeline: [
+              {
+                $match: {
+                  deletedAt: null, // Fixed typo here
+                },
+              },
+              {
+                $project: {
+                  _id: 0,
+                  brandname: 1,
+                },
+              },
+            ],
+            as: 'brandDetails',
+          },
+        },
+        {
+          $lookup: {
+            from: CategoryModel.modelName,
+            localField: 'category',
+            foreignField: '_id',
+            pipeline: [
+              {
+                $match: {
+                  deletedAt: null, // Fixed typo here
+                },
+              },
+              {
+                $project: {
+                  _id: 0,
+                  categoryname: 1,
+                },
+              },
+            ],
+            as: 'categoryDetails',
+          },
+        },
+        {
+          $unwind: {path:'$brandDetails', preserveNullAndEmptyArrays:true},
+        },
+        {
+          $unwind: {path:'$categoryDetails', preserveNullAndEmptyArrays:true},
+        },
+        {
           $project: {
             name: 1,
             description: 1,
@@ -57,6 +105,8 @@ export const getProductId = async (req, res, next) => {
             brand: 1,
             category: 1,
             image:1,
+            brandName: '$brandDetails.brandname',
+          categoryName: '$categoryDetails.categoryname'
           },
         },
       ])
@@ -84,6 +134,9 @@ export const getAllProduct = async (req, res, next) => {
           deletedAt: null,
         },
       },
+      {
+        $sort:{createdAt:-1}
+                },
       {
         $lookup: {
           from: BrandModel.modelName,

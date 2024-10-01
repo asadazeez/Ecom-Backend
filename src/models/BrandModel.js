@@ -9,7 +9,7 @@ brandname : {
 },
 description : {
     type:String,
-    required:true
+    required:false
 },
 logo : {
     type:String,
