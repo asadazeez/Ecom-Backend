@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import AutoIncreamentInc from 'mongoose-sequence';
+import { OrderStatusEnum } from '../enum/OrderStatusEnum.js';
 const AutoIncreament = AutoIncreamentInc(mongoose);
 
 const orderSchema = new mongoose.Schema({
@@ -49,7 +50,7 @@ billingDetails:{
     type:String,
     required:true,
   },
-  email:{
+  emailAddress:{
     type:String,
     required:true
   },
@@ -59,7 +60,7 @@ billingDetails:{
   },
   phoneNumber:{
     type:Number,
-    required:false
+    required:true
   },
   country:{
     type:String,
@@ -69,6 +70,13 @@ billingDetails:{
     type:Number,
     required:true
   }
+},
+orderStatus:{
+  type:String,
+  enum:Object.values(OrderStatusEnum),
+  
+  default:OrderStatusEnum.Confirmed
+
 },
 deletedAt:{
     type:Date,

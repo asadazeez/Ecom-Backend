@@ -3,7 +3,7 @@ import { AdminModel } from '../models/AdminModel.js';
 import   bcrypt from 'bcrypt';
 import { serverError } from './errorHandler.js';
 
-export const createAdmin  = async(next) => {
+export const createAdmin  = async(req, res, next) => {
     try {
         const admin = await AdminModel.findOne({});
         if (admin){

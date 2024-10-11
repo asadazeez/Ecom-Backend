@@ -37,9 +37,9 @@ export const ProductByCategory = async (req, res, next) => {
         },
       },
 
-      // {
-      //   $unwind: {path:'$category', preserveNullAndEmptyArrays:true},
-      // },
+      {
+        $unwind: {path:'$category', preserveNullAndEmptyArrays:true},
+      },
 
       {
         $project: {

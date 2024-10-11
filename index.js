@@ -14,7 +14,7 @@ app.use(mongoSanitize());
 
 const port = process.env.PORT_NUMBER;
 
-app.get('/data', (req,response) => {
+app.get('/data', (req,response) => {  
   response.json({
     success :true,
     message : 'server is running'
