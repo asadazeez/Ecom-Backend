@@ -23,13 +23,13 @@ export const ShopPage = async (req, res, next ) => {
             },
         },
     ]);
-    res.status(200).json({
+    return res.status(200).json({
         success:true,
         data:{categories:categories}
     });
         
     } catch (error) {
-        next(validationError(error));
+        return next(validationError(error));
         
     }
 };

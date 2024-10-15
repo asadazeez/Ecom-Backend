@@ -3,6 +3,7 @@ import env from '../env.js';
 
 export  const adminAuthMiddleware = async (req,res,next) => {
     const authHeader = req.headers.Authorization;
+
     if (!authHeader) {
         res.status(422).json({
             success: false,

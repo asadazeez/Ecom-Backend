@@ -55,12 +55,12 @@ export const SingleProductPage = async (req, res, next) => {
       }
     ])).at(0);
 
-    res.status(200).json({
+    return res.status(200).json({
         success:true,
         data:{product:product}
 
     });
   } catch (error) {
-    next(serverError(error));
+    return next(serverError(error));
   }
 };

@@ -28,12 +28,12 @@ export const addProduct = async (req, res, next) => {
       deletedAt: null,
     });
 
-    res.status(201).json({
+    return  res.status(201).json({
       success: true,
       message: 'Product added successfully',
     });
   } catch (error) {
-    next(serverError(error));
+    return  next(serverError(error));
   }
 };
 
@@ -116,13 +116,13 @@ export const getProductId = async (req, res, next) => {
       return next(validationError('Product not found'));
     }
 
-    res.status(200).json({
+    return  res.status(200).json({
       success: true,
       message: 'Product Retrieved successfully',
       data: product,
     });
   } catch (error) {
-    next(serverError(error));
+    return  next(serverError(error));
   }
 };
 
@@ -198,13 +198,13 @@ export const getAllProduct = async (req, res, next) => {
       },
     ]);
 
-    res.status(200).json({
+    return  res.status(200).json({
       success: true,
       message: 'Products Retrieved successfully',
       data: products,
     });
   } catch (error) {
-    next(serverError(error));
+    return  next(serverError(error));
   }
 };
 
@@ -243,12 +243,12 @@ if(req.file){
     product.image = productImage;
     await product.save();
 
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
       message: 'Product Updated Successfully',
     });
   } catch (error) {
-    next(serverError(error));
+    return  next(serverError(error));
   }
 };
 
@@ -265,13 +265,13 @@ export const featuredProduct = async (req , res, next) => {
           product.featured = product.featured===true?false:true;
           await product.save();
 
-          res.status(200).json({
+          return  res.status(200).json({
             success: true,
             message: product.featured?'Product is Featured':' Product is not featured',
           });
         
     } catch (error) {
-        next(serverError(error));
+      return  next(serverError(error));
         
     }
 };
@@ -291,12 +291,12 @@ export const deleteProduct = async (req, res, next) => {
     product.deletedAt = dayjs().toDate();
     await product.save();
 
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
       message: 'Product deleted Successfully',
     });
     
   } catch (error) {
-    next(serverError(error));
+    return  next(serverError(error));
   }
 };

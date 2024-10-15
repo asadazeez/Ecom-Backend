@@ -21,7 +21,7 @@ $project:{
       }
     ]);
 
-res.status(200).json({
+    return res.status(200).json({
     success:true,
     data:{carousel:carousel}
 
@@ -30,6 +30,6 @@ res.status(200).json({
 
     
   } catch (error) {
-    next(serverError(error));
+    return next(serverError(error));
   }
 };

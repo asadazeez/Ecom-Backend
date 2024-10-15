@@ -22,7 +22,7 @@ export const addBrand = async (req, res, next) => {
       logo,
       deletedAt: null,
     });
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
       message: 'Brand added successfully',
     });
@@ -56,7 +56,7 @@ export const getBrandId = async (req, res, next) => {
       ])
     ).at(0);
     if (!brand) {
-        res.status(422).json({
+      return  res.status(422).json({
             success: false,
             message: 'Brand not found',
             data: brand,
@@ -96,7 +96,7 @@ export const getBrandList = async (req,res,next) => {
     ]);
 
     if (!brands) {
-      res.status(422).json({
+      return  res.status(422).json({
           success: false,
           message: 'Brand not found',
           data: brands,
@@ -136,13 +136,13 @@ export const getAllBrand = async (req, res, next) => {
     if (!brands) {
       next(validationError('Brand not found'));
     }
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
       message: 'Brand Retrieved successfully',
       data: {brands:brands},
     });
   } catch (error) {
-    next(serverError(error));
+    return next(serverError(error));
   }
 };
 
@@ -153,14 +153,14 @@ export const updateBrand = async (req, res,next) => {
 
 
     if (!name){
-        res.status(422).json({
+      return  res.status(422).json({
             success:false,
             message:'name is required'
         });
     }
     const brand = await BrandModel.findOne({_id:brandId,deletedAt:null});
     if(!name){
-        res.status(422).json({
+      return  res.status(422).json({
             success:false,
             message:'Brand not found',
         });
@@ -177,7 +177,7 @@ brand.logo= brandLogo;
 await brand.save();
 
 
-res.status(200).json({
+return res.status(200).json({
     success:true,
     message:'Brand Updated Successfully'
 });
@@ -193,7 +193,7 @@ export const deleteBrand = async (req,res,next) => {
         const{brandId} = req.params;
         const brand = await BrandModel.findOne({_id:brandId,deletedAt:null});
         if(!brand){
-            res.status(422).json({
+          return res.status(422).json({
                 success:false,
                 message:'Brand not found',
 
@@ -201,7 +201,7 @@ export const deleteBrand = async (req,res,next) => {
      }
         const products = await ProductModel.find({brand:brandId, deletedAt:null});
         if(products && products.length>0){
-          res.status(201).json({
+          return  res.status(201).json({
               success:false,
               message:'This brand cannot be deleted because it is currently assigned to one or more products. ',
 
@@ -210,13 +210,13 @@ export const deleteBrand = async (req,res,next) => {
      brand.deletedAt = dayjs();
      await brand.save();
 
-     res.status(200).json({
+     return res.status(200).json({
         success:true,
         message:'Brand deleted Successfully'
     });
 
     }catch(error){
 
-        next(serverError(error));
+      return next(serverError(error));
     }
 };

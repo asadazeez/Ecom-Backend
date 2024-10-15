@@ -17,6 +17,9 @@ const env = cleanEnv(process.env, {
 	JWT_EXPIRES: str({ default: '7 days' }),
 	ADMIN_EMAIL: str({ default: 'admin@ecommerce.com' }),
 	ADMIN_PASSWORD: str({ default: 'admin' }),
-	});
+	STRIPE_SECRET_KEY:str({default:'sk_test_51Q9jMK2Ke57wrUvFNgQyAkJJuydB5GOeko0PCcGDzINiJRKEH7m8URhY7EmITYjGm6OEiIPamvTakO1SXp3ZiUCp00KHbmUa9i'
+})	});
+
+	
 
 export default env;

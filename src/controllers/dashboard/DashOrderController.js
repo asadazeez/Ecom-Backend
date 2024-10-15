@@ -52,12 +52,12 @@ export const getAllOrder = async (req, res, next) => {
       },
     ]);
 
-    res.status(200).json({
+    return  res.status(200).json({
       success: true,
       data: { orders: orders },
     });
   } catch (error) {
-    next(serverError(error));
+    return next(serverError(error));
   }
 };
 
@@ -77,12 +77,12 @@ export const OrderStatus = async (req, res, next) => {
     order.orderStatus = StatusValue;
     await order.save();
 
-    res.status(200).json({
+    return  res.status(200).json({
       success: true,
       message: 'Order Status Updated ',
     });
   } catch (error) {
-    next(serverError(error));
+    return  next(serverError(error));
   }
 };
 
@@ -155,12 +155,12 @@ export const OrderView = async (req, res, next) => {
       return next(validationError('Order not found'));
     }
 
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
       message: 'Order Retrieved successfully',
       data: order,
     });
   } catch (error) {
-    next(serverError(error));
+    return next(serverError(error));
   }
 };

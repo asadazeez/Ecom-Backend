@@ -18,12 +18,12 @@ export const addBanner = async (req, res, next) => {
         deletedAt: null,
       });
   
-      res.status(201).json({
+      return res.status(201).json({
         success: true,
         message: 'Banner added successfully',
       });
     } catch (error) {
-      next(serverError(error));
+      return next(serverError(error));
     }
   };
 
@@ -56,12 +56,12 @@ export const addBanner = async (req, res, next) => {
       banner.image = bannerImage;
       await banner.save();
   
-      res.status(200).json({
+      return res.status(200).json({
         success: true,
         message: 'Banner Updated Successfully',
       });
     } catch (error) {
-      next(serverError(error));
+      return next(serverError(error));
     }
   };
 
@@ -91,13 +91,13 @@ export const addBanner = async (req, res, next) => {
         return next(validationError('Banner not found'));
       }
   
-      res.status(200).json({
+      return  res.status(200).json({
         success: true,
         message: 'Banner Retrieved successfully',
         data: banner,
       });
     } catch (error) {
-      next(serverError(error));
+      return next(serverError(error));
     }
   };
   
@@ -149,13 +149,13 @@ export const addBanner = async (req, res, next) => {
         },
       ]);
   
-      res.status(200).json({
+      return  res.status(200).json({
         success: true,
         message: 'Banners Retrieved successfully',
         data: banners,
       });
     } catch (error) {
-      next(serverError(error));
+      return  next(serverError(error));
     }
   };
   
@@ -174,7 +174,7 @@ export const addBanner = async (req, res, next) => {
       banner.deletedAt = dayjs().toDate();
       await banner.save();
   
-      res.status(200).json({
+      return res.status(200).json({
         success: true,
         message: 'Banner deleted Successfully',
       });

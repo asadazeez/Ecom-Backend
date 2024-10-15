@@ -26,7 +26,7 @@ export const HomePage = async (req, res, next) => {
     ]);
 
     if (!category) {
-      next(validationError('Category not found'));
+      return next(validationError('Category not found'));
     }
 
     const featured = await ProductModel.aggregate([
@@ -71,11 +71,11 @@ export const HomePage = async (req, res, next) => {
       },
     ]);
 
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
       data: { categories: category, featured: featured },
     });
   } catch (error) {
-    next(serverError(error));
+    return next(serverError(error));
   }
 };

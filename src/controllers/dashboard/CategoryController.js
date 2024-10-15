@@ -23,12 +23,12 @@ export const addCategory = async (req,res,next) => {
             image,
             deleteAt:null
         });
-        res.status(200).json({
+        return res.status(200).json({
             success: true,
             message:'Category added successfully'
         });
     }catch(error){
-        next(serverError(error));
+        return  next(serverError(error));
     }
 };
 export const getCategoryId = async (req,res,next) => {
@@ -54,15 +54,15 @@ export const getCategoryId = async (req,res,next) => {
             )
         ).at(0);
         if (!category) {
-            next(validationError('Category not found'));
+            return next(validationError('Category not found'));
         }
-        res.status(200).json({
+        return res.status(200).json({
             success:true,
             message:'Category Retrieved successfully',
             data:category,
         });
     }catch(error){
-        next(serverError(error));
+        return  next(serverError(error));
     }
 };
  
@@ -82,16 +82,16 @@ export const getCategoryList = async(req,res,next) => {
         },
     ]);
     if (!category) {
-        next(validationError('Category not found'));
+        return next(validationError('Category not found'));
     }
-    res.status(200).json({
+    return  res.status(200).json({
         success:true,
         message:'Category Retrieved successfully',
         data:category,
     });
         
     } catch (error) {
-        next(serverError(error));
+        return next(serverError(error));
         
     }
 };
@@ -119,9 +119,9 @@ export const getAllCategory = async (req,res,next) => {
             )
        ;
         if (!category) {
-            next(validationError('Category not found'));
+            return next(validationError('Category not found'));
         }
-        res.status(200).json({
+        return res.status(200).json({
             success:true,
             message:'Category Retrieved successfully',
             data:category,
@@ -137,14 +137,14 @@ export const updateCategory = async (req,res ,next) => {
         const{name,description} = req.body;
 
         if (!name){
-            res.status(422).json({
+            return res.status(422).json({
                 success:false,
                 message:'name is required'
             });
         }
         const category = await CategoryModel.findOne({_id:categoryId,deletedAt:null});
         if(!name){
-            res.status(422).json({
+            return  res.status(422).json({
                 success:false,
                 message:'Category not found',
             });
@@ -158,14 +158,14 @@ export const updateCategory = async (req,res ,next) => {
         category.image = categoryImage; 
         await category.save();
 
-        res.status(200).json({
+        return  res.status(200).json({
             success:true,
             message:'Category Updated Successfully'
         });
 
     } 
     catch (error){
-        next(serverError(error));
+        return next(serverError(error));
 
     }
 };
@@ -175,7 +175,7 @@ export const deleteCategory = async(req , res, next) => {
         const category = await CategoryModel.findOne({_id:categoryId,deletedAt:null});
         
         if(!category){
-            res.status(422).json({
+            return  res.status(422).json({
                 success:false,
                 message:'Category not found',
 
@@ -186,14 +186,15 @@ export const deleteCategory = async(req , res, next) => {
 
 
         if(banners && banners.length>0){
-            res.status(201).json({
+          return  res.status(201).json({
                 success:false,
                 message:'This category cannot be deleted because it is currently being used in a banner. ',
+                
 
         });
      }
         if(products && products.length>0){
-            res.status(201).json({
+          return  res.status(201).json({
                 success:false,
                 message:'This category cannot be deleted because it is currently assigned to one or more products. ',
 
@@ -202,12 +203,12 @@ export const deleteCategory = async(req , res, next) => {
         
      category.deletedAt = dayjs();
      await category.save();
-     res.status(200).json({
+     return res.status(200).json({
         success:true,
         message:'Category deleted Successfully'
     });
     }catch(error){
-        next(serverError(error));
+       return next(serverError(error));
     }
 
 };

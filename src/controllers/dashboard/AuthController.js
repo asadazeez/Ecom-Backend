@@ -14,7 +14,7 @@ export const NewAdmin = async (req, res, next) => {
       password: hash,
       deletedAt: null,
     });
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
       message: 'Login Successfully',
     });
@@ -106,14 +106,14 @@ export const AdminLogin = async (req, res, next) => {
     );
     const userData = { email: user.email, role: 'admin' };
 
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
       message: 'Login Successfully',
       accessToken,
       userData,
     });
   } catch (error) {
-    next(serverError(error));
+    return next(serverError(error));
   }
 };
 

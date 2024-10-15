@@ -53,11 +53,11 @@ export const ProductByCategoryDash = async (req, res, next) => {
 
     
 
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
       data: { products: products, categoryData: products?.at(0)?.category },
     });
   } catch (error) {
-    next(serverError(error));
+    return next(serverError(error));
   }
 };
