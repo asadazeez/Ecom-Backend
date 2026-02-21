@@ -3,7 +3,6 @@ import env from '../env.js';
 
 export const userAuthMiddleware = async (req, res, next) => {
   const authHeader = req.headers.authorization;
-
   if (!authHeader) {
     res.status(422).json({
       success: false,

@@ -63,11 +63,11 @@ export const UserLogin = async(req,res,next) => {
       }
 
       const accessToken = jwt.sign({userId: user._id},env.USER_JWT_SECRET_KEY );
-      const userData = {email:user.email , role:'user'};
+      const userData = {email:user.email , role:'user',accessToken,userId:user._id};
       res.status(200).json({
         success: true,
         message:'Login Successfully',
-        accessToken,userData,
+        userData,
 
       });
 
